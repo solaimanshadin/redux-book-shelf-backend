@@ -29,8 +29,8 @@ client.connect((err) => {
         })
 
 
-        app.get('/reading-list/:email',  (req, res, next) => {
-            Reading.find({email: req.params.email}).toArray((err, data) => {
+        app.get('/reading-list/', (req, res, next) => {
+            Reading.find().toArray((err, data) => {
                 res.json({ data });
             })
         });
@@ -39,16 +39,16 @@ client.connect((err) => {
             const data = req.body;
             Reading.insertOne(data)
             .then(data => {
-                res.json({success: !!data.result.ok})
+                res.json({success: !!data.result.ok, data: data})
             })
         });
 
         app.delete('/remove-from-reading-list/:id', (req, res, next) => {
             const id = ObjectID(req.params.id);
             
-            Booking.findOneAndDelete({_id: id, bookedBy: user.email})
+            Reading.findOneAndDelete({id: id})
             .then(data => {
-                res.json({success: !!data.value})
+                res.json({success: !!data.value, deletedBookId: id })
             })
         });
 
