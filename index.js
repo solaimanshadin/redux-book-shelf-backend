@@ -43,7 +43,7 @@ client.connect((err) => {
     app.delete("/remove-from-reading-list/:id", (req, res) => {
       const deleteId = req.params.id;
 
-      Reading.findOneAndDelete({ _id: ObjectID(deleteId) }).then((data) => {
+      Reading.findOneAndDelete({ id: (deleteId) }).then((data) => {
         res.json({ success: !!data.value, deletedBookId: deleteId });
         console.log(data);
       });
